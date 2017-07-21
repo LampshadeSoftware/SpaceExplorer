@@ -23,13 +23,13 @@ class GameScene: SKScene {
 		let height = Double(scene!.size.height)
 		let mappedX = pos.x - (camera?.position.x)!
 		let mappedY = pos.y - (camera?.position.y)!
-		let amount = (Double(mappedY) + height / 2) / height * 100.0
+        let amount = Double(mappedY)*2/height * 30
+		//let amount = (Double(mappedY) + height / 2) / height * 100.0
 		if mappedX < 0 {
 			ship.setThrusterAmount(left: true, amount: amount)
 		} else {
 			ship.setThrusterAmount(left: false, amount: amount)
 		}
-
     }
     
     func touchMoved(toPoint pos : CGPoint) {
@@ -67,5 +67,6 @@ class GameScene: SKScene {
 		// Called before each frame is rendered
 		ship.update()
 		self.camera!.position = ship.position()
+        self.camera!.position.y += 100
 	}
 }

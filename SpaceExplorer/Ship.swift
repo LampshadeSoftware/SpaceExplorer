@@ -14,10 +14,11 @@ class Ship {
 	var leftFlame: SKSpriteNode
 	var rightFlame: SKSpriteNode
 	
+    var maxThrusterAmount = 30.0
 	var leftThrusterAmount = 0.0
 	var rightThrusterAmount = 0.0
 	
-	
+    
 	init(scene: SKScene) {
 		body = scene.childNode(withName: "body") as! SKSpriteNode
 		leftFlame = body.childNode(withName: "leftFlame") as! SKSpriteNode
@@ -64,10 +65,8 @@ class Ship {
 		self.body.physicsBody?.applyForce(CGVector(dx: rightXComp, dy: rightYComp), at: right)
 		
 		
-		leftFlame.size.height = CGFloat(leftThrusterAmount / 100 * 90)
-		rightFlame.size.height = CGFloat(rightThrusterAmount / 100 * 90)
-		
-		
+		leftFlame.size.height = CGFloat(leftThrusterAmount / maxThrusterAmount * 90)
+		rightFlame.size.height = CGFloat(rightThrusterAmount / maxThrusterAmount * 90)
 	}
 	
 	func position()  -> CGPoint {
