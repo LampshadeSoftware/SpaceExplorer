@@ -80,8 +80,11 @@ class GameScene: SKScene {
 		ship.update()
 		self.camera!.position = ship.position()
 <<<<<<< HEAD
+<<<<<<< HEAD
         self.camera!.position.y += 100
 =======
+=======
+>>>>>>> e7853dad0fa40f981259cdccb711ad1dbf270bdd
 		
 	}
 	
@@ -149,6 +152,9 @@ class GameScene: SKScene {
 		stars4.position.x = stars1.position.x - starsSize.width
 		stars4.position.y = stars1.position.y - starsSize.height
 
+<<<<<<< HEAD
+>>>>>>> e7853dad0fa40f981259cdccb711ad1dbf270bdd
+=======
 >>>>>>> e7853dad0fa40f981259cdccb711ad1dbf270bdd
 	}
 }
