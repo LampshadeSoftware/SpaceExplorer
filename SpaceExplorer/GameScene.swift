@@ -11,22 +11,38 @@ import GameplayKit
 
 class GameScene: SKScene {
 	
+	var ship: Ship!
+	
     override func didMove(to view: SKView) {
-        
-		
+        ship = Ship(scene: self)
+		self.camera = self.childNode(withName: "cam") as? SKCameraNode
 	}
     
     
     func touchDown(atPoint pos : CGPoint) {
-		
+		let height = Double(scene!.size.height)
+		let mappedX = pos.x - (camera?.position.x)!
+		let mappedY = pos.y - (camera?.position.y)!
+		let amount = (Double(mappedY) + height / 2) / height * 100.0
+		if mappedX < 0 {
+			ship.setThrusterAmount(left: true, amount: amount)
+		} else {
+			ship.setThrusterAmount(left: false, amount: amount)
+		}
+
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-		
+		touchDown(atPoint: pos)
     }
     
     func touchUp(atPoint pos : CGPoint) {
-		
+		let mappedX = pos.x - (camera?.position.x)!
+		if mappedX < 0 {
+			ship.setThrusterAmount(left: true, amount: 0)
+		} else {
+			ship.setThrusterAmount(left: false, amount: 0)
+		}
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -47,7 +63,9 @@ class GameScene: SKScene {
     }
     
     
-    override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
-    }
+	override func update(_ currentTime: TimeInterval) {
+		// Called before each frame is rendered
+		ship.update()
+		self.camera!.position = ship.position()
+	}
 }

@@ -17,6 +17,7 @@
 		8594399B1F21BF9900FF47D5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 859439991F21BF9900FF47D5 /* LaunchScreen.storyboard */; };
 		859439A61F21BF9900FF47D5 /* SpaceExplorerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859439A51F21BF9900FF47D5 /* SpaceExplorerTests.swift */; };
 		859439B11F21BF9900FF47D5 /* SpaceExplorerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 859439B01F21BF9900FF47D5 /* SpaceExplorerUITests.swift */; };
+		CC3AC1CB1F21C29D006FDA86 /* Ship.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3AC1CA1F21C29D006FDA86 /* Ship.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		859439AC1F21BF9900FF47D5 /* SpaceExplorerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpaceExplorerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		859439B01F21BF9900FF47D5 /* SpaceExplorerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpaceExplorerUITests.swift; sourceTree = "<group>"; };
 		859439B21F21BF9900FF47D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CC3AC1CA1F21C29D006FDA86 /* Ship.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ship.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +114,7 @@
 				859439971F21BF9900FF47D5 /* Assets.xcassets */,
 				859439991F21BF9900FF47D5 /* LaunchScreen.storyboard */,
 				8594399C1F21BF9900FF47D5 /* Info.plist */,
+				CC3AC1CA1F21C29D006FDA86 /* Ship.swift */,
 			);
 			path = SpaceExplorer;
 			sourceTree = "<group>";
@@ -274,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				859439911F21BF9900FF47D5 /* GameScene.swift in Sources */,
+				CC3AC1CB1F21C29D006FDA86 /* Ship.swift in Sources */,
 				859439931F21BF9900FF47D5 /* GameViewController.swift in Sources */,
 				8594398B1F21BF9900FF47D5 /* AppDelegate.swift in Sources */,
 			);
