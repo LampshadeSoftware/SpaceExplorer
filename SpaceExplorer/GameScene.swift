@@ -79,12 +79,7 @@ class GameScene: SKScene {
 		self.adjustStars()
 		ship.update()
 		self.camera!.position = ship.position()
-<<<<<<< HEAD
-<<<<<<< HEAD
         self.camera!.position.y += 100
-=======
-=======
->>>>>>> e7853dad0fa40f981259cdccb711ad1dbf270bdd
 		
 	}
 	
@@ -93,6 +88,8 @@ class GameScene: SKScene {
 	var starsSize: CGSize!
 	func adjustStars() {
 		let pos = camera!.position
+		
+		
 		// What starfield am I in?
 		if stars1.contains(pos) {
 			currentStars = stars1
@@ -103,6 +100,7 @@ class GameScene: SKScene {
 		} else { // stars4 contains camera
 			currentStars = stars4
 		}
+		
 		
 		// What quadrant of that starfield am I in?
 		let subX = pos.x - currentStars.position.x
@@ -128,17 +126,21 @@ class GameScene: SKScene {
 		
 		switch currentSubQuad {
 		case 4:
-			stars1.position.x = pos.x.truncatingRemainder(dividingBy: starsSize.width)
-			stars1.position.y = pos.y.truncatingRemainder(dividingBy: starsSize.height)
+			stars1.position.x = pos.x - pos.x.truncatingRemainder(dividingBy: starsSize.width)
+			stars1.position.y = pos.y - pos.y.truncatingRemainder(dividingBy: starsSize.height)
+			currentStars = stars1
 		case 3:
-			stars1.position.x = pos.x.truncatingRemainder(dividingBy: starsSize.width) + starsSize.width
-			stars1.position.y = pos.y.truncatingRemainder(dividingBy: starsSize.height)
+			stars1.position.x = pos.x - pos.x.truncatingRemainder(dividingBy: starsSize.width) + starsSize.width
+			stars1.position.y = pos.y - pos.y.truncatingRemainder(dividingBy: starsSize.height)
+			currentStars = stars2
 		case 2:
-			stars1.position.x = pos.x.truncatingRemainder(dividingBy: starsSize.width)
-			stars1.position.y = pos.y.truncatingRemainder(dividingBy: starsSize.height) + starsSize.height
+			stars1.position.x = pos.x - pos.x.truncatingRemainder(dividingBy: starsSize.width)
+			stars1.position.y = pos.y - pos.y.truncatingRemainder(dividingBy: starsSize.height) + starsSize.height
+			currentStars = stars3
 		case 1:
-			stars1.position.x = pos.x.truncatingRemainder(dividingBy: starsSize.width) + starsSize.width
-			stars1.position.y = pos.y.truncatingRemainder(dividingBy: starsSize.height) + starsSize.height
+			stars1.position.x = pos.x - pos.x.truncatingRemainder(dividingBy: starsSize.width) + starsSize.width
+			stars1.position.y = pos.y - pos.y.truncatingRemainder(dividingBy: starsSize.height) + starsSize.height
+			currentStars = stars4
 		default:
 			print("something went wrong")
 		}
@@ -151,10 +153,7 @@ class GameScene: SKScene {
 		
 		stars4.position.x = stars1.position.x - starsSize.width
 		stars4.position.y = stars1.position.y - starsSize.height
-
-<<<<<<< HEAD
->>>>>>> e7853dad0fa40f981259cdccb711ad1dbf270bdd
-=======
->>>>>>> e7853dad0fa40f981259cdccb711ad1dbf270bdd
+		
 	}
+
 }
