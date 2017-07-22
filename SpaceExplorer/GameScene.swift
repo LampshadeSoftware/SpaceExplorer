@@ -80,6 +80,8 @@ class GameScene: SKScene {
 		ship.update()
 		self.camera!.position = ship.position()
         self.camera!.position.y += 100
+        
+        self.childNode(withName: "Thruster Target")?.zRotation = self.ship.body.zRotation
 		
 	}
 	
