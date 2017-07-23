@@ -11,8 +11,8 @@ import SpriteKit
 
 class Ship {
 	var body: SKSpriteNode
-	var leftFlame: SKSpriteNode
-	var rightFlame: SKSpriteNode
+    var leftThruster: SKEmitterNode
+    var rightThruster: SKEmitterNode
 	
     var maxThrusterAmount = 30.0
 	var leftThrusterAmount = 0.0
@@ -21,9 +21,8 @@ class Ship {
     
 	init(scene: SKScene) {
 		body = scene.childNode(withName: "body") as! SKSpriteNode
-		leftFlame = body.childNode(withName: "leftFlame") as! SKSpriteNode
-		rightFlame = body.childNode(withName: "rightFlame") as! SKSpriteNode
-		
+        leftThruster = body.childNode(withName: "leftThruster") as! SKEmitterNode
+        rightThruster = body.childNode(withName: "rightThruster") as! SKEmitterNode
 	}
 	
 	func setThrusterAmount(left: Bool, amount: Double) {
@@ -64,9 +63,8 @@ class Ship {
 		let rightYComp = sin(body.zRotation + CGFloat.pi/2) * CGFloat(rightThrusterAmount)
 		self.body.physicsBody?.applyForce(CGVector(dx: rightXComp, dy: rightYComp), at: right)
 		
-		
-		leftFlame.size.height = CGFloat(leftThrusterAmount / maxThrusterAmount * 90)
-		rightFlame.size.height = CGFloat(rightThrusterAmount / maxThrusterAmount * 90)
+		leftThruster.particleLifetime = CGFloat(0.5 * (leftThrusterAmount / maxThrusterAmount))
+        rightThruster.particleLifetime = CGFloat(0.5 * (rightThrusterAmount / maxThrusterAmount))
 	}
 	
 	func position()  -> CGPoint {

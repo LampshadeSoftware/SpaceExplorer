@@ -29,7 +29,6 @@ class GameScene: SKScene {
 		let mappedX = pos.x - (camera?.position.x)!
 		let mappedY = pos.y - (camera?.position.y)!
         let amount = Double(mappedY)*2/height * 30
-		//let amount = (Double(mappedY) + height / 2) / height * 100.0
 		if mappedX < 0 {
 			ship.setThrusterAmount(left: true, amount: amount)
 		} else {
@@ -74,9 +73,6 @@ class GameScene: SKScene {
 		ship.update()
 		self.camera!.position = ship.position()
         self.camera!.position.y += 100
-        
-        let leftThruster = self.ship.body.childNode(withName: "Left Thruster") as! SKEmitterNode
-        leftThruster.emissionAngle = self.ship.body.zRotation + CGFloat.pi/2
 	}
 	
 	var starsSize: CGSize!
