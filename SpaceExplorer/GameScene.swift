@@ -78,8 +78,8 @@ class GameScene: SKScene {
 	var starsSize: CGSize!
 	func adjustStars() {
 		let pos = camera!.position
-		stars1.position.x = pos.x * 0.5
-		stars1.position.y = pos.y * 0.5
+		// stars1.position.x = pos.x * 0.5
+		// stars1.position.y = pos.y * 0.5
 		let center = stars1.position
 		let halfWidth = starsSize.width / 2
 		let halfHeight = starsSize.height / 2
