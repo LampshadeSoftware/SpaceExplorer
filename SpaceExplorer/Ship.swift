@@ -13,6 +13,8 @@ class Ship {
 	var body: SKSpriteNode
     var leftThruster: SKEmitterNode
     var rightThruster: SKEmitterNode
+    var leftSmoke: SKEmitterNode
+    var rightSmoke: SKEmitterNode
 	
     var maxThrusterAmount = 30.0
 	var leftThrusterAmount = 0.0
@@ -23,6 +25,8 @@ class Ship {
 		body = scene.childNode(withName: "body") as! SKSpriteNode
         leftThruster = body.childNode(withName: "leftThruster") as! SKEmitterNode
         rightThruster = body.childNode(withName: "rightThruster") as! SKEmitterNode
+        leftSmoke = body.childNode(withName: "leftSmoke") as! SKEmitterNode
+        rightSmoke = body.childNode(withName: "rightSmoke") as! SKEmitterNode
 	}
 	
 	func setThrusterAmount(left: Bool, amount: Double) {
@@ -65,6 +69,12 @@ class Ship {
 		
 		leftThruster.particleLifetime = CGFloat(0.5 * (leftThrusterAmount / maxThrusterAmount))
         rightThruster.particleLifetime = CGFloat(0.5 * (rightThrusterAmount / maxThrusterAmount))
+        
+        leftSmoke.emissionAngle = body.zRotation + CGFloat.pi/2
+        rightSmoke.emissionAngle = body.zRotation + CGFloat.pi/2
+        
+        leftSmoke.particleLifetime = CGFloat(2.0 * (leftThrusterAmount / maxThrusterAmount))
+        rightSmoke.particleLifetime = CGFloat(2.0 * (rightThrusterAmount / maxThrusterAmount))
 	}
 	
 	func position()  -> CGPoint {

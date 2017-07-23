@@ -72,7 +72,6 @@ class GameScene: SKScene {
 		self.adjustStars()
 		ship.update()
 		self.camera!.position = ship.position()
-        self.camera!.position.y += 100
 	}
 	
 	var starsSize: CGSize!
