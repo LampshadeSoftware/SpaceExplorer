@@ -75,8 +75,8 @@ class GameScene: SKScene {
 		self.camera!.position = ship.position()
         self.camera!.position.y += 100
         
-        self.childNode(withName: "Thruster Target")?.zRotation = self.ship.body.zRotation
-		
+        let leftThruster = self.ship.body.childNode(withName: "Left Thruster") as! SKEmitterNode
+        leftThruster.emissionAngle = self.ship.body.zRotation + CGFloat.pi/2
 	}
 	
 	var starsSize: CGSize!
