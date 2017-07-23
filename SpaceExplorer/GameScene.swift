@@ -13,17 +13,11 @@ class GameScene: SKScene {
 	
 	var ship: Ship!
 	var stars1: SKSpriteNode!
-	var stars2: SKSpriteNode!
-	var stars3: SKSpriteNode!
-	var stars4: SKSpriteNode!
 	
     override func didMove(to view: SKView) {
         ship = Ship(scene: self)
 		stars1 = self.childNode(withName: "stars1") as? SKSpriteNode
-		stars2 = self.childNode(withName: "stars2") as? SKSpriteNode
-		stars3 = self.childNode(withName: "stars3") as? SKSpriteNode
-		stars4 = self.childNode(withName: "stars4") as? SKSpriteNode
-		
+
 		starsSize = stars1.size
 		
 		self.camera = self.childNode(withName: "cam") as? SKCameraNode
@@ -85,77 +79,29 @@ class GameScene: SKScene {
 		
 	}
 	
-	var currentStars: SKSpriteNode!
-	var currentSubQuad = 0
 	var starsSize: CGSize!
 	func adjustStars() {
 		let pos = camera!.position
+		stars1.position.x = pos.x * 0.5
+		stars1.position.y = pos.y * 0.5
+		let center = stars1.position
+		let halfWidth = starsSize.width / 2
+		let halfHeight = starsSize.height / 2
+		let topEdge = center.y + halfHeight
+		let bottomEdge = center.y - halfHeight
+		let rightEdge = center.x + halfWidth
+		let leftEdge = center.x - halfWidth
 		
-		
-		// What starfield am I in?
-		if stars1.contains(pos) {
-			currentStars = stars1
-		} else if stars2.contains(pos) {
-			currentStars = stars2
-		} else if stars3.contains(pos) {
-			currentStars = stars3
-		} else { // stars4 contains camera
-			currentStars = stars4
+		if pos.x > rightEdge {
+			stars1.position.x += starsSize.width
+		} else if pos.x < leftEdge {
+			stars1.position.x -= starsSize.width
 		}
-		
-		
-		// What quadrant of that starfield am I in?
-		let subX = pos.x - currentStars.position.x
-		let subY = pos.y - currentStars.position.y
-		
-		var newQuad: Int
-		if subX >= starsSize.width / 2 {
-			newQuad = 1
-		} else {
-			newQuad = 2
+		if pos.y > topEdge {
+			stars1.position.y += starsSize.height
+		} else if pos.y < bottomEdge {
+			stars1.position.y -= starsSize.height
 		}
-		if subY < starsSize.height / 2 {
-			newQuad += 2
-		}
-		
-		// If I'm in the same quadrant as before, do nothing
-		if newQuad == currentSubQuad {
-			return
-		} else {
-			print("Moved to quad \(newQuad)")
-			currentSubQuad = newQuad
-		}
-		
-		switch currentSubQuad {
-		case 4:
-			stars1.position.x = pos.x - pos.x.truncatingRemainder(dividingBy: starsSize.width)
-			stars1.position.y = pos.y - pos.y.truncatingRemainder(dividingBy: starsSize.height)
-			currentStars = stars1
-		case 3:
-			stars1.position.x = pos.x - pos.x.truncatingRemainder(dividingBy: starsSize.width) + starsSize.width
-			stars1.position.y = pos.y - pos.y.truncatingRemainder(dividingBy: starsSize.height)
-			currentStars = stars2
-		case 2:
-			stars1.position.x = pos.x - pos.x.truncatingRemainder(dividingBy: starsSize.width)
-			stars1.position.y = pos.y - pos.y.truncatingRemainder(dividingBy: starsSize.height) + starsSize.height
-			currentStars = stars3
-		case 1:
-			stars1.position.x = pos.x - pos.x.truncatingRemainder(dividingBy: starsSize.width) + starsSize.width
-			stars1.position.y = pos.y - pos.y.truncatingRemainder(dividingBy: starsSize.height) + starsSize.height
-			currentStars = stars4
-		default:
-			print("something went wrong")
-		}
-		
-		stars2.position.x = stars1.position.x - starsSize.width
-		stars2.position.y = stars1.position.y
-		
-		stars3.position.x = stars1.position.x
-		stars3.position.y = stars1.position.y - starsSize.height
-		
-		stars4.position.x = stars1.position.x - starsSize.width
-		stars4.position.y = stars1.position.y - starsSize.height
 		
 	}
-
 }
