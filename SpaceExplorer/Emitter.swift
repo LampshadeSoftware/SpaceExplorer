@@ -36,8 +36,8 @@ class Emitter{
         let yPos = point.y
         
         let asteroid = SKSpriteNode(imageNamed: "asteroidTexture")
-        asteroid.size = CGSize(width: 25, height: 25)
-        asteroid.physicsBody = SKPhysicsBody(circleOfRadius: 25)
+        asteroid.size = CGSize(width: 26, height: 26)
+        asteroid.physicsBody = SKPhysicsBody(circleOfRadius: 13)
         asteroid.physicsBody?.restitution = 0.5
         asteroid.physicsBody?.friction = 0
         asteroid.physicsBody?.linearDamping = 0
