@@ -21,6 +21,9 @@ class GameScene: SKScene {
 		starsSize = stars1.size
 		
 		self.camera = self.childNode(withName: "cam") as? SKCameraNode
+        
+        let emit = Emitter(scene: scene!)
+        emit.startSpawning()
 	}
     
     
