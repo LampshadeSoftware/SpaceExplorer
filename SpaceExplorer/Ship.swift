@@ -73,8 +73,8 @@ class Ship {
         leftSmoke.emissionAngle = body.zRotation + CGFloat.pi/2
         rightSmoke.emissionAngle = body.zRotation + CGFloat.pi/2
         
-        leftSmoke.particleLifetime = CGFloat(2.0 * (leftThrusterAmount / maxThrusterAmount))
-        rightSmoke.particleLifetime = CGFloat(2.0 * (rightThrusterAmount / maxThrusterAmount))
+        leftSmoke.particleAlpha = CGFloat(0.06 * (leftThrusterAmount / maxThrusterAmount))
+        rightSmoke.particleAlpha = CGFloat(0.06 * (rightThrusterAmount / maxThrusterAmount))
 	}
 	
 	func position()  -> CGPoint {
