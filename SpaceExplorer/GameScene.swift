@@ -80,10 +80,11 @@ class GameScene: SKScene {
 	}
 	
 	var starsSize: CGSize!
+	var starsXOffset = 0
+	var starsYOffset = 0
+	let starParallax: CGFloat = 0.5
 	func adjustStars() {
-		let pos = camera!.position
-		// stars1.position.x = pos.x * 0.5
-		// stars1.position.y = pos.y * 0.5
+		let pos = self.camera!.position
 		let center = stars1.position
 		let halfWidth = starsSize.width / 2
 		let halfHeight = starsSize.height / 2
@@ -93,15 +94,20 @@ class GameScene: SKScene {
 		let leftEdge = center.x - halfWidth
 		
 		if pos.x > rightEdge {
-			stars1.position.x += starsSize.width
+			starsXOffset += 1
+			print("Moved stars right")
 		} else if pos.x < leftEdge {
-			stars1.position.x -= starsSize.width
+			starsXOffset -= 1
+			print("Moved stars left")
 		}
 		if pos.y > topEdge {
-			stars1.position.y += starsSize.height
+			starsYOffset += 1
+			print("Moved stars up")
 		} else if pos.y < bottomEdge {
-			stars1.position.y -= starsSize.height
+			starsYOffset -= 1
+			print("Moved stars down")
 		}
-		
+		stars1.position.x = pos.x * starParallax + CGFloat(starsXOffset) * starsSize.width
+		stars1.position.y = pos.y * starParallax + CGFloat(starsYOffset) * starsSize.height
 	}
 }
