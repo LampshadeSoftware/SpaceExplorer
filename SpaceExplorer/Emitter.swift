@@ -28,7 +28,7 @@ class Emitter{
     }
     
     @objc func createAsteroid(){
-        despawn()
+        //despawn()
         
         let width = CGFloat(gameScene.size.width)
         let point = randomPointOnCircle(radius: width/2+100, center: center)
