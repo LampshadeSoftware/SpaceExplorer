@@ -95,10 +95,10 @@ class Emitter{
     
     func despawn(){
         for child in gameScene.children{
-            if (child.position.x > gameScene.size.width/2+130 || child.position.x < -gameScene.size.width/2-130){
+            if (child.position.x > gameScene.size.width/2+130 + center.x || child.position.x < -gameScene.size.width/2-130 + center.x){
                 child.removeFromParent()
             }
-            else if(child.position.y > gameScene.size.width/2+130 || child.position.y < -gameScene.size.width/2-130){
+            else if(child.position.y > gameScene.size.width/2+130 + center.y || child.position.y < -gameScene.size.width/2-130 + center.y){
                 child.removeFromParent()
             }
         }
