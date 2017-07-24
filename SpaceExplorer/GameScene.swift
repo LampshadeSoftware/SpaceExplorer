@@ -22,11 +22,6 @@ class GameScene: SKScene {
 		
 		self.camera = self.childNode(withName: "cam") as? SKCameraNode
         
-        let circle = SKShapeNode(circleOfRadius: scene!.size.height/2+100)
-        circle.fillColor = .red
-        
-        scene?.addChild(circle)
-        
         let emit = Emitter(scene: scene!)
         emit.startSpawning()
 	}
