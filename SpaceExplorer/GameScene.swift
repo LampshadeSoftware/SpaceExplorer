@@ -13,6 +13,7 @@ class GameScene: SKScene {
 	
 	var ship: Ship!
 	var stars1: SKSpriteNode!
+    var emit: Emitter!
 	
     override func didMove(to view: SKView) {
         ship = Ship(scene: self)
@@ -22,7 +23,7 @@ class GameScene: SKScene {
 		
 		self.camera = self.childNode(withName: "cam") as? SKCameraNode
         
-        let emit = Emitter(scene: scene!)
+        emit = Emitter(scene: scene!)
         emit.startSpawning()
 	}
     
@@ -75,6 +76,7 @@ class GameScene: SKScene {
 		self.adjustStars()
 		ship.update()
 		self.camera!.position = ship.position()
+        emit.updateCenter(point: ship.position())
 	}
 	
 	var starsSize: CGSize!
