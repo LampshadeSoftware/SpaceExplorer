@@ -12,7 +12,7 @@ import GameplayKit
 import UIKit
 
 
-class Emitter{
+class Emitter {
     
     var gameScene: SKScene!
     var theta: CGFloat!

@@ -11,11 +11,14 @@ import GameplayKit
 
 class GameScene: SKScene {
 	
+    
+    // Variables
 	var ship: Ship!
 	var stars1: SKSpriteNode!
     var emit: Emitter!
     
 	
+    // Touch Functions
     override func didMove(to view: SKView) {
         ship = Ship(scene: self)
 		stars1 = self.childNode(withName: "stars1") as? SKSpriteNode
@@ -28,7 +31,6 @@ class GameScene: SKScene {
         emit.startSpawning()
     
 	}
-    
     
     func touchDown(atPoint pos : CGPoint) {
 		let height = Double(scene!.size.height)
@@ -79,9 +81,11 @@ class GameScene: SKScene {
 		ship.update()
 		self.camera!.position = ship.position()
         emit.updateCenter(point: ship.position())
-        despawn()
+        //despawn()
 	}
 	
+    
+    // Stars Background
 	var starsSize: CGSize!
 	var starsXOffset = 0
 	var starsYOffset = 0
@@ -114,6 +118,7 @@ class GameScene: SKScene {
 		stars1.position.y = pos.y * starParallax + CGFloat(starsYOffset) * starsSize.height
 	}
     
+    // Auxiliary Functions
     func despawn(){
         for child in scene!.children{
             let spawnCircle = scene!.size.width/2 + 130
