@@ -19,16 +19,15 @@ class Emitter {
     var center: CGPoint!
     
     init(scene: SKScene){
-        
         gameScene = scene
     }
     
     func startSpawning(){
-        let _ = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(createAsteroid), userInfo: nil, repeats: true)
+        let randTime = Double(arc4random_uniform(3) + 1)
+        let _ = Timer.scheduledTimer(timeInterval: randTime, target: self, selector: #selector(createAsteroid), userInfo: nil, repeats: false)
     }
     
     @objc func createAsteroid(){
-        
         let width = CGFloat(gameScene.size.width)
         let point = randomPointOnCircle(radius: width/2+100, center: center)
         let xPos = point.x
@@ -45,15 +44,17 @@ class Emitter {
         asteroid.position.x = xPos
         asteroid.position.y = yPos
         
-        let magnitude = CGFloat(drand48()*0.1)
+        let magnitude = CGFloat(drand48()*0.05)
         let deviation = getDeviation()
-        let dx = (-xPos+deviation.x)*magnitude
-        let dy = (-yPos+deviation.y)*magnitude
+        let dx = (-xPos + center.x + deviation.x)*magnitude
+        let dy = (-yPos + center.y + deviation.y)*magnitude
         
         asteroid.physicsBody?.velocity = CGVector(dx: dx, dy: dy)
         asteroid.physicsBody?.angularVelocity = CGFloat(arc4random_uniform(8))-4
         
         gameScene?.addChild(asteroid)
+        
+        self.startSpawning()
         
     }
     

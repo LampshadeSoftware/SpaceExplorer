@@ -16,7 +16,7 @@ class Ship {
     var leftSmoke: SKEmitterNode
     var rightSmoke: SKEmitterNode
 	
-    var maxThrusterAmount = 30.0
+    var maxThrusterAmount = 100.0
 	var leftThrusterAmount = 0.0
 	var rightThrusterAmount = 0.0
 	
@@ -67,12 +67,11 @@ class Ship {
 		let rightYComp = sin(body.zRotation + CGFloat.pi/2) * CGFloat(rightThrusterAmount)
 		self.body.physicsBody?.applyForce(CGVector(dx: rightXComp, dy: rightYComp), at: right)
 		
+        // Sets alpha and emission angle of the thrusters and smoke 
 		leftThruster.particleLifetime = CGFloat(0.5 * (leftThrusterAmount / maxThrusterAmount))
         rightThruster.particleLifetime = CGFloat(0.5 * (rightThrusterAmount / maxThrusterAmount))
-        
         leftSmoke.emissionAngle = body.zRotation + CGFloat.pi/2
         rightSmoke.emissionAngle = body.zRotation + CGFloat.pi/2
-        
         leftSmoke.particleAlpha = CGFloat(0.06 * (leftThrusterAmount / maxThrusterAmount))
         rightSmoke.particleAlpha = CGFloat(0.06 * (rightThrusterAmount / maxThrusterAmount))
 	}

@@ -29,14 +29,13 @@ class GameScene: SKScene {
         
         emit = Emitter(scene: scene!)
         emit.startSpawning()
-    
 	}
     
     func touchDown(atPoint pos : CGPoint) {
 		let height = Double(scene!.size.height)
 		let mappedX = pos.x - (camera?.position.x)!
 		let mappedY = pos.y - (camera?.position.y)!
-        let amount = Double(mappedY)*2/height * 30
+        let amount = Double(mappedY)*2/height * ship.maxThrusterAmount
 		if mappedX < 0 {
 			ship.setThrusterAmount(left: true, amount: amount)
 		} else {
@@ -102,17 +101,17 @@ class GameScene: SKScene {
 		
 		if pos.x > rightEdge {
 			starsXOffset += 1
-			print("Moved stars right")
+			//Moved stars right
 		} else if pos.x < leftEdge {
 			starsXOffset -= 1
-			print("Moved stars left")
+			//Moved stars left
 		}
 		if pos.y > topEdge {
 			starsYOffset += 1
-			print("Moved stars up")
+			//Moved stars up
 		} else if pos.y < bottomEdge {
 			starsYOffset -= 1
-			print("Moved stars down")
+			//Moved stars down
 		}
 		stars1.position.x = pos.x * starParallax + CGFloat(starsXOffset) * starsSize.width
 		stars1.position.y = pos.y * starParallax + CGFloat(starsYOffset) * starsSize.height
