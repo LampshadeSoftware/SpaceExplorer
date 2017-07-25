@@ -28,7 +28,6 @@ class Emitter{
     }
     
     @objc func createAsteroid(){
-        //despawn()
         
         let width = CGFloat(gameScene.size.width)
         let point = randomPointOnCircle(radius: width/2+100, center: center)
@@ -46,7 +45,7 @@ class Emitter{
         asteroid.position.x = xPos
         asteroid.position.y = yPos
         
-        let magnitude = CGFloat(drand48()*0.03)
+        let magnitude = CGFloat(drand48()*0.1)
         let deviation = getDeviation()
         let dx = (-xPos+deviation.x)*magnitude
         let dy = (-yPos+deviation.y)*magnitude
@@ -91,17 +90,6 @@ class Emitter{
     
     func updateCenter(point: CGPoint){
         center = point
-    }
-    
-    func despawn(){
-        for child in gameScene.children{
-            if (child.position.x > gameScene.size.width/2+130 + center.x || child.position.x < -gameScene.size.width/2-130 + center.x){
-                child.removeFromParent()
-            }
-            else if(child.position.y > gameScene.size.width/2+130 + center.y || child.position.y < -gameScene.size.width/2-130 + center.y){
-                child.removeFromParent()
-            }
-        }
     }
     
 }

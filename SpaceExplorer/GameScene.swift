@@ -14,6 +14,7 @@ class GameScene: SKScene {
 	var ship: Ship!
 	var stars1: SKSpriteNode!
     var emit: Emitter!
+    
 	
     override func didMove(to view: SKView) {
         ship = Ship(scene: self)
@@ -25,6 +26,7 @@ class GameScene: SKScene {
         
         emit = Emitter(scene: scene!)
         emit.startSpawning()
+    
 	}
     
     
@@ -77,6 +79,7 @@ class GameScene: SKScene {
 		ship.update()
 		self.camera!.position = ship.position()
         emit.updateCenter(point: ship.position())
+        despawn()
 	}
 	
 	var starsSize: CGSize!
@@ -110,4 +113,17 @@ class GameScene: SKScene {
 		stars1.position.x = pos.x * starParallax + CGFloat(starsXOffset) * starsSize.width
 		stars1.position.y = pos.y * starParallax + CGFloat(starsYOffset) * starsSize.height
 	}
+    
+    func despawn(){
+        for child in scene!.children{
+            let spawnCircle = scene!.size.width/2 + 130
+            let xDistance = abs(child.position.x - self.camera!.position.x)
+            let yDistance = abs(child.position.y - self.camera!.position.y)
+            let distance = sqrt(pow(xDistance, 2) + pow(yDistance, 2))
+
+            if (distance > spawnCircle){
+                child.removeFromParent()
+            }
+        }
+    }
 }
