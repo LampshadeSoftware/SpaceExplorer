@@ -17,20 +17,24 @@ class GameScene: SKScene {
 	var stars1: SKSpriteNode!
     var emit: Emitter!
     
-	
-    // Touch Functions
+	// Init
     override func didMove(to view: SKView) {
         ship = Ship(scene: self)
 		stars1 = self.childNode(withName: "stars1") as? SKSpriteNode
-
 		starsSize = stars1.size
 		
 		self.camera = self.childNode(withName: "cam") as? SKCameraNode
         
+        // Starts the emitter for the asteroids
         emit = Emitter(scene: scene!)
         emit.startSpawning()
+        
+        // Sets back hole radius
+        let blackHole =  self.childNode(withName: "blackHole") as? SKFieldNode
+        blackHole?.region = SKRegion(radius: 200)
 	}
     
+    // Touch Functions
     func touchDown(atPoint pos : CGPoint) {
 		let height = Double(scene!.size.height)
 		let mappedX = pos.x - (camera?.position.x)!
