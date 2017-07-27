@@ -27,7 +27,8 @@ class GameScene: SKScene {
         
         // Starts the emitter for the asteroids
         emit = Emitter(scene: scene!)
-        emit.startSpawning()
+        emit.updateCenter(point: ship.position())
+        emit.spawn()
         
         // Sets back hole radius
         let blackHole =  self.childNode(withName: "blackHole") as? SKFieldNode
