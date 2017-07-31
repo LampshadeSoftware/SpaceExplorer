@@ -16,9 +16,9 @@ class Ship {
     var leftSmoke: SKEmitterNode
     var rightSmoke: SKEmitterNode
 	
-    var maxThrusterAmount = 100.0
-	var leftThrusterAmount = 0.0
-	var rightThrusterAmount = 0.0
+    var maxThrusterPower = 100.0
+	var leftThrusterPower = 0.0  // current thruster power (e.g. how far up/down the screen the user has their finger)
+	var rightThrusterPower = 0.0
 	
     
 	init(scene: SKScene) {
@@ -29,11 +29,11 @@ class Ship {
         rightSmoke = body.childNode(withName: "rightSmoke") as! SKEmitterNode
 	}
 	
-	func setThrusterAmount(left: Bool, amount: Double) {
+	func setThrusterPower(left: Bool, amount: Double) {
 		if left {
-			leftThrusterAmount = amount
+			leftThrusterPower = amount
 		} else {
-			rightThrusterAmount = amount
+			rightThrusterPower = amount
 		}
 	}
 	
@@ -51,29 +51,33 @@ class Ship {
 	}
 	
 	func update() {
+        // Finds the points at the edges of the ship where the force should be applied
 		let left = getEdgePoint(left: true)
 		let right = getEdgePoint(left: false)
 		
-		let ratio = leftThrusterAmount / rightThrusterAmount
+        // Makes the powers the same if they are close enough to eachother
+		let ratio = leftThrusterPower / rightThrusterPower
 		if ratio > 0.9 && ratio < 1.1 {
-			leftThrusterAmount = rightThrusterAmount
+			leftThrusterPower = rightThrusterPower
 		}
 		
-		let leftXComp = cos(body.zRotation + CGFloat.pi/2) * CGFloat(leftThrusterAmount)
-		let leftYComp = sin(body.zRotation + CGFloat.pi/2) * CGFloat(leftThrusterAmount)
+        // Applies a force on the left side of the ship
+		let leftXComp = cos(body.zRotation + CGFloat.pi/2) * CGFloat(leftThrusterPower)
+		let leftYComp = sin(body.zRotation + CGFloat.pi/2) * CGFloat(leftThrusterPower)
 		self.body.physicsBody?.applyForce(CGVector(dx: leftXComp, dy: leftYComp), at: left)
 		
-		let rightXComp = cos(body.zRotation + CGFloat.pi/2) * CGFloat(rightThrusterAmount)
-		let rightYComp = sin(body.zRotation + CGFloat.pi/2) * CGFloat(rightThrusterAmount)
+        // Applies a force on the riht side of the ship
+		let rightXComp = cos(body.zRotation + CGFloat.pi/2) * CGFloat(rightThrusterPower)
+		let rightYComp = sin(body.zRotation + CGFloat.pi/2) * CGFloat(rightThrusterPower)
 		self.body.physicsBody?.applyForce(CGVector(dx: rightXComp, dy: rightYComp), at: right)
 		
         // Sets alpha and emission angle of the thrusters and smoke 
-		leftThruster.particleLifetime = CGFloat(0.5 * (leftThrusterAmount / maxThrusterAmount))
-        rightThruster.particleLifetime = CGFloat(0.5 * (rightThrusterAmount / maxThrusterAmount))
+		leftThruster.particleLifetime = CGFloat(0.5 * (leftThrusterPower / maxThrusterPower))
+        rightThruster.particleLifetime = CGFloat(0.5 * (rightThrusterPower / maxThrusterPower))
         leftSmoke.emissionAngle = body.zRotation + CGFloat.pi/2
         rightSmoke.emissionAngle = body.zRotation + CGFloat.pi/2
-        leftSmoke.particleAlpha = CGFloat(0.06 * (leftThrusterAmount / maxThrusterAmount))
-        rightSmoke.particleAlpha = CGFloat(0.06 * (rightThrusterAmount / maxThrusterAmount))
+        leftSmoke.particleAlpha = CGFloat(0.06 * (leftThrusterPower / maxThrusterPower))
+        rightSmoke.particleAlpha = CGFloat(0.06 * (rightThrusterPower / maxThrusterPower))
 	}
 	
 	func position()  -> CGPoint {

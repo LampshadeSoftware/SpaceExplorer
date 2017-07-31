@@ -15,7 +15,7 @@ class GameScene: SKScene {
     // Variables
 	var ship: Ship!
 	var stars1: SKSpriteNode!
-    var emit: Emitter!
+    var asteroidEmitter: AsteroidEmitter!
     
 	// Init
     override func didMove(to view: SKView) {
@@ -26,43 +26,51 @@ class GameScene: SKScene {
 		self.camera = self.childNode(withName: "cam") as? SKCameraNode
         
         // Starts the emitter for the asteroids
-        emit = Emitter(scene: scene!)
-        emit.updateCenter(point: ship.position())
-        emit.spawn()
+        asteroidEmitter = AsteroidEmitter(scene: scene!)
+        asteroidEmitter.updateCenter(point: ship.position())
+        asteroidEmitter.spawn()
         
         // Sets back hole radius
-        let blackHole =  self.childNode(withName: "blackHole") as? SKFieldNode
-        blackHole?.region = SKRegion(radius: 200)
+        let blackHole =  self.childNode(withName: "blackHole") as! SKFieldNode
+        blackHole.region = SKRegion(radius: 200)
+        
+        //let test = SKSpriteNode(imageNamed: "asteroidTexture")
+        let blackHoleEmitter = Emitter(scene: self, object: blackHole)
+        blackHoleEmitter.setObjectScale(scale: 0.8)
 	}
+    
+    // Auxiliary Functions
+    func setThrusterPower(pos: CGPoint){
+        let height = Double(scene!.size.height)
+        let mappedX = pos.x - (camera?.position.x)!
+        let mappedY = pos.y - (camera?.position.y)!
+        let amount = Double(mappedY)*2/height * ship.maxThrusterPower
+        if mappedX < 0 {
+            ship.setThrusterPower(left: true, amount: amount)
+        } else {
+            ship.setThrusterPower(left: false, amount: amount)
+        }
+    }
     
     // Touch Functions
     func touchDown(atPoint pos : CGPoint) {
-		let height = Double(scene!.size.height)
-		let mappedX = pos.x - (camera?.position.x)!
-		let mappedY = pos.y - (camera?.position.y)!
-        let amount = Double(mappedY)*2/height * ship.maxThrusterAmount
-		if mappedX < 0 {
-			ship.setThrusterAmount(left: true, amount: amount)
-		} else {
-			ship.setThrusterAmount(left: false, amount: amount)
-		}
+		setThrusterPower(pos: pos)
     }
     
     func touchMoved(toPoint pos : CGPoint) {
-		touchDown(atPoint: pos)
+		setThrusterPower(pos: pos)
     }
     
     func touchUp(atPoint pos : CGPoint) {
 		let mappedX = pos.x - (camera?.position.x)!
 		if mappedX < 0 {
-			ship.setThrusterAmount(left: true, amount: 0)
+			ship.setThrusterPower(left: true, amount: 0)
 		} else {
-			ship.setThrusterAmount(left: false, amount: 0)
+			ship.setThrusterPower(left: false, amount: 0)
 		}
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         for t in touches { self.touchDown(atPoint: t.location(in: self)) }
     }
     
@@ -84,8 +92,9 @@ class GameScene: SKScene {
 		self.adjustStars()
 		ship.update()
 		self.camera!.position = ship.position()
-        emit.updateCenter(point: ship.position())
-        //despawn()
+        
+        // Gets the ship velocity
+        asteroidEmitter.updateCenter(point: ship.position())
 	}
 	
     
@@ -121,18 +130,4 @@ class GameScene: SKScene {
 		stars1.position.x = pos.x * starParallax + CGFloat(starsXOffset) * starsSize.width
 		stars1.position.y = pos.y * starParallax + CGFloat(starsYOffset) * starsSize.height
 	}
-    
-    // Auxiliary Functions
-    func despawn(){
-        for child in scene!.children{
-            let spawnCircle = scene!.size.width/2 + 130
-            let xDistance = abs(child.position.x - self.camera!.position.x)
-            let yDistance = abs(child.position.y - self.camera!.position.y)
-            let distance = sqrt(pow(xDistance, 2) + pow(yDistance, 2))
-
-            if (distance > spawnCircle){
-                child.removeFromParent()
-            }
-        }
-    }
 }
