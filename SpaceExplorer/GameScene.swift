@@ -34,9 +34,8 @@ class GameScene: SKScene {
         let blackHole =  self.childNode(withName: "blackHole") as! SKFieldNode
         blackHole.region = SKRegion(radius: 200)
         
-        //let test = SKSpriteNode(imageNamed: "asteroidTexture")
         let blackHoleEmitter = Emitter(scene: self, object: blackHole)
-        blackHoleEmitter.setObjectScale(scale: 0.8)
+        blackHoleEmitter.setObjectScale(scale: 0.1)
 	}
     
     // Auxiliary Functions
