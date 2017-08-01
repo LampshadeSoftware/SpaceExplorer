@@ -35,7 +35,10 @@ class GameScene: SKScene {
         blackHole.region = SKRegion(radius: 200)
         
         let blackHoleEmitter = Emitter(scene: self, object: blackHole)
-        blackHoleEmitter.setObjectScale(scale: 0.1)
+        blackHoleEmitter.birthrate = 1 // every n seconds
+        blackHoleEmitter.setObjectScale(scale: 0.5)
+        blackHoleEmitter.restrictObjectsTo = 2
+        blackHoleEmitter.startEmitting()
 	}
     
     // Auxiliary Functions
