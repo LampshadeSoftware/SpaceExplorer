@@ -17,6 +17,9 @@ class GameScene: SKScene {
 	var stars1: SKSpriteNode!
     var asteroidEmitter: AsteroidEmitter!
     
+    var isTouchingRight = false
+    var isTouchingLeft = false
+    
 	// Init
     override func didMove(to view: SKView) {
         ship = Ship(scene: self)
@@ -47,9 +50,11 @@ class GameScene: SKScene {
         let mappedX = pos.x - (camera?.position.x)!
         let mappedY = pos.y - (camera?.position.y)!
         let amount = Double(mappedY)*2/height * ship.maxThrusterPower
-        if mappedX < 0 {
+        if (mappedX < 0 && ship.getLeftFuel() > 0.0){
+            isTouchingLeft = true
             ship.setThrusterPower(left: true, amount: amount)
-        } else {
+        } else if (mappedX > 0 && ship.getRightFuel() > 0.0){
+            isTouchingRight = true
             ship.setThrusterPower(left: false, amount: amount)
         }
     }
@@ -66,8 +71,10 @@ class GameScene: SKScene {
     func touchUp(atPoint pos : CGPoint) {
 		let mappedX = pos.x - (camera?.position.x)!
 		if mappedX < 0 {
+            isTouchingLeft = false
 			ship.setThrusterPower(left: true, amount: 0)
 		} else {
+            isTouchingRight = false
 			ship.setThrusterPower(left: false, amount: 0)
 		}
     }
@@ -92,7 +99,7 @@ class GameScene: SKScene {
 	override func update(_ currentTime: TimeInterval) {
 		// Called before each frame is rendered
 		self.adjustStars()
-		ship.update()
+		ship.update(isTouchingLeft: isTouchingLeft, isTouchingRight: isTouchingRight)
 		self.camera!.position = ship.position()
         
         // Gets the ship velocity

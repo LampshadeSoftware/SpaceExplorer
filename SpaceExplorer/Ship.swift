@@ -15,6 +15,9 @@ class Ship {
     var rightThruster: SKEmitterNode
     var leftSmoke: SKEmitterNode
     var rightSmoke: SKEmitterNode
+    
+    var rightFuelRemaining = 100.0
+    var leftFuelRemaining = 100.0
 	
     var maxThrusterPower = 100.0
 	var leftThrusterPower = 0.0  // current thruster power (e.g. how far up/down the screen the user has their finger)
@@ -49,8 +52,24 @@ class Ship {
 		
 		return CGPoint(x: body.position.x + x, y: body.position.y + y)
 	}
+    
+    func depleteFuel(depleteRight: Bool){
+        if(depleteRight == true){
+            if rightFuelRemaining > 0{
+                rightFuelRemaining -= abs(rightThrusterPower) * 0.03
+            }
+        }
+        else if (depleteRight == false){
+            if leftFuelRemaining > 0{
+                leftFuelRemaining -= abs(leftThrusterPower) * 0.03
+            }
+        }
+        
+        print(leftFuelRemaining)
+        print(rightFuelRemaining)
+    }
 	
-	func update() {
+	func update(isTouchingLeft: Bool, isTouchingRight: Bool) {
         // Finds the points at the edges of the ship where the force should be applied
 		let left = getEdgePoint(left: true)
 		let right = getEdgePoint(left: false)
@@ -78,8 +97,34 @@ class Ship {
         rightSmoke.emissionAngle = body.zRotation + CGFloat.pi/2
         leftSmoke.particleAlpha = CGFloat(0.06 * (leftThrusterPower / maxThrusterPower))
         rightSmoke.particleAlpha = CGFloat(0.06 * (rightThrusterPower / maxThrusterPower))
+        
+        //FUEL
+        //Screen is being touched and fuel needs to start being depleted
+        if(isTouchingRight == true){
+            depleteFuel(depleteRight: true)
+        }
+        if(isTouchingLeft == true){
+            depleteFuel(depleteRight: false)
+        }
+        
+        //If no more fuel then stop thrusters
+        if (leftFuelRemaining <= 0.0){
+            leftThrusterPower = 0
+            leftFuelRemaining = 0.0
+        }
+        if(rightFuelRemaining <= 0.0){
+            rightThrusterPower = 0
+            rightFuelRemaining = 0.0
+        }
 	}
 	
+    func getRightFuel() -> Double{
+        return rightFuelRemaining
+    }
+    func getLeftFuel() -> Double{
+        return leftFuelRemaining
+    }
+    
 	func position()  -> CGPoint {
 		return body.position
 	}
