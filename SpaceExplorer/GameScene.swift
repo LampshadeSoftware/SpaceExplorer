@@ -20,6 +20,13 @@ class GameScene: SKScene {
     var isTouchingRight = false
     var isTouchingLeft = false
     
+    var leftFuelRemainingLabel: SKLabelNode!
+    var rightFuelRemainingLabel: SKLabelNode!
+    var distanceTraveledLabel: SKLabelNode!
+    
+    var previousShipPosition = CGPoint(x: 0, y: 0)
+    var distanceTraveled: CGFloat = 0
+    
 	// Init
     override func didMove(to view: SKView) {
         ship = Ship(scene: self)
@@ -42,6 +49,16 @@ class GameScene: SKScene {
         blackHoleEmitter.setObjectScale(scale: 0.5)
         blackHoleEmitter.restrictObjectsTo = 2
         blackHoleEmitter.startEmitting()
+        
+        //Set up labels
+        leftFuelRemainingLabel = self.childNode(withName: "leftFuelRemainingLabel") as! SKLabelNode
+        rightFuelRemainingLabel = self.childNode(withName: "rightFuelRemainingLabel") as! SKLabelNode
+        distanceTraveledLabel = self.childNode(withName: "distanceTraveledLabel") as! SKLabelNode
+        
+        leftFuelRemainingLabel.text = String(describing: ship.getLeftFuel())
+        rightFuelRemainingLabel.text = String(describing: ship.getRightFuel())
+        distanceTraveledLabel.text = "0 mi"
+        previousShipPosition = ship.position()
 	}
     
     // Auxiliary Functions
@@ -104,8 +121,47 @@ class GameScene: SKScene {
         
         // Gets the ship velocity
         asteroidEmitter.updateCenter(point: ship.position())
+        
+        updateLabels()
 	}
 	
+    func updateLabels(){
+        //Update positions
+        leftFuelRemainingLabel.position = CGPoint(x: ship.position().x - 100, y: ship.position().y + (scene!.size.height/2 - leftFuelRemainingLabel.frame.height))
+        distanceTraveledLabel.position = CGPoint(x: ship.position().x, y: ship.position().y + (scene!.size.height/2 - distanceTraveledLabel.frame.height))
+        rightFuelRemainingLabel.position = CGPoint(x: ship.position().x + 100, y: ship.position().y + (scene!.size.height/2 - rightFuelRemainingLabel.frame.height))
+        //Update fuel texts
+        leftFuelRemainingLabel.text = String(describing: Int(ship.getLeftFuel()))
+        rightFuelRemainingLabel.text = String(describing: Int(ship.getRightFuel()))
+        
+        //Update fuel colors
+        switch (ship.getLeftFuel()){
+        case 0...ship.getMaxFuel()*0.33:
+            leftFuelRemainingLabel.fontColor = .red
+        case ship.getMaxFuel()*0.33...ship.getMaxFuel()*0.66:
+            leftFuelRemainingLabel.fontColor = .yellow
+        default:
+            leftFuelRemainingLabel.fontColor = .green
+        }
+        switch (ship.getRightFuel()){
+        case 0...ship.getMaxFuel()*0.33:
+            rightFuelRemainingLabel.fontColor = .red
+        case ship.getMaxFuel()*0.33...ship.getMaxFuel()*0.66:
+            rightFuelRemainingLabel.fontColor = .yellow
+        default:
+            rightFuelRemainingLabel.fontColor = .green
+        }
+        
+        //Update distance
+        let currentShipPosition = ship.position()
+        let xDistance = abs(currentShipPosition.x - previousShipPosition.x)
+        let yDistance = abs(currentShipPosition.y - previousShipPosition.y)
+        let distance = sqrt(pow(xDistance, 2) + pow(yDistance, 2))
+        distanceTraveled += distance * 0.01
+        distanceTraveledLabel.text = String(describing: Int(distanceTraveled)) + " mi"
+        previousShipPosition = currentShipPosition
+        
+    }
     
     // Stars Background
 	var starsSize: CGSize!

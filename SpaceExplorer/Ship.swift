@@ -16,8 +16,9 @@ class Ship {
     var leftSmoke: SKEmitterNode
     var rightSmoke: SKEmitterNode
     
-    var rightFuelRemaining = 100.0
-    var leftFuelRemaining = 100.0
+    let maxFuel = 300.0
+    var rightFuelRemaining: Double!
+    var leftFuelRemaining: Double!
 	
     var maxThrusterPower = 100.0
 	var leftThrusterPower = 0.0  // current thruster power (e.g. how far up/down the screen the user has their finger)
@@ -30,6 +31,9 @@ class Ship {
         rightThruster = body.childNode(withName: "rightThruster") as! SKEmitterNode
         leftSmoke = body.childNode(withName: "leftSmoke") as! SKEmitterNode
         rightSmoke = body.childNode(withName: "rightSmoke") as! SKEmitterNode
+        
+        rightFuelRemaining = maxFuel
+        leftFuelRemaining = maxFuel
 	}
 	
 	func setThrusterPower(left: Bool, amount: Double) {
@@ -56,17 +60,14 @@ class Ship {
     func depleteFuel(depleteRight: Bool){
         if(depleteRight == true){
             if rightFuelRemaining > 0{
-                rightFuelRemaining -= abs(rightThrusterPower) * 0.03
+                rightFuelRemaining! -= abs(rightThrusterPower) * 0.03
             }
         }
         else if (depleteRight == false){
             if leftFuelRemaining > 0{
-                leftFuelRemaining -= abs(leftThrusterPower) * 0.03
+                leftFuelRemaining! -= abs(leftThrusterPower) * 0.03
             }
         }
-        
-        print(leftFuelRemaining)
-        print(rightFuelRemaining)
     }
 	
 	func update(isTouchingLeft: Bool, isTouchingRight: Bool) {
@@ -123,6 +124,9 @@ class Ship {
     }
     func getLeftFuel() -> Double{
         return leftFuelRemaining
+    }
+    func getMaxFuel() -> Double{
+        return maxFuel
     }
     
 	func position()  -> CGPoint {
