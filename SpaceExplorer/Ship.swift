@@ -98,7 +98,7 @@ class Ship {
         rightSmoke.emissionAngle = body.zRotation + CGFloat.pi/2
         leftSmoke.particleAlpha = CGFloat(0.06 * (leftThrusterPower / maxThrusterPower))
         rightSmoke.particleAlpha = CGFloat(0.06 * (rightThrusterPower / maxThrusterPower))
-        
+		
         //FUEL
         //Screen is being touched and fuel needs to start being depleted
         if(isTouchingRight == true){
@@ -117,7 +117,13 @@ class Ship {
             rightThrusterPower = 0
             rightFuelRemaining = 0.0
         }
+		
+		// Collision
+		for contact in body.physicsBody!.allContactedBodies() {
+			print("Collision at velocity \(contact.velocity)")
+		}
 	}
+	
 	
     func getRightFuel() -> Double{
         return rightFuelRemaining

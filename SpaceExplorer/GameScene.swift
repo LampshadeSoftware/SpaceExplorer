@@ -51,9 +51,9 @@ class GameScene: SKScene {
         blackHoleEmitter.startEmitting()
         
         //Set up labels
-        leftFuelRemainingLabel = self.childNode(withName: "leftFuelRemainingLabel") as! SKLabelNode
-        rightFuelRemainingLabel = self.childNode(withName: "rightFuelRemainingLabel") as! SKLabelNode
-        distanceTraveledLabel = self.childNode(withName: "distanceTraveledLabel") as! SKLabelNode
+        leftFuelRemainingLabel = self.camera!.childNode(withName: "leftFuelRemainingLabel") as! SKLabelNode
+        rightFuelRemainingLabel = self.camera!.childNode(withName: "rightFuelRemainingLabel") as! SKLabelNode
+        distanceTraveledLabel = self.camera!.childNode(withName: "distanceTraveledLabel") as! SKLabelNode
         
         leftFuelRemainingLabel.text = String(describing: ship.getLeftFuel())
         rightFuelRemainingLabel.text = String(describing: ship.getRightFuel())
@@ -127,9 +127,7 @@ class GameScene: SKScene {
 	
     func updateLabels(){
         //Update positions
-        leftFuelRemainingLabel.position = CGPoint(x: ship.position().x - 100, y: ship.position().y + (scene!.size.height/2 - leftFuelRemainingLabel.frame.height))
-        distanceTraveledLabel.position = CGPoint(x: ship.position().x, y: ship.position().y + (scene!.size.height/2 - distanceTraveledLabel.frame.height))
-        rightFuelRemainingLabel.position = CGPoint(x: ship.position().x + 100, y: ship.position().y + (scene!.size.height/2 - rightFuelRemainingLabel.frame.height))
+        
         //Update fuel texts
         leftFuelRemainingLabel.text = String(describing: Int(ship.getLeftFuel()))
         rightFuelRemainingLabel.text = String(describing: Int(ship.getRightFuel()))
