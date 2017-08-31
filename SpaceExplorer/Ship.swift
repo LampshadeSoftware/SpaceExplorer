@@ -16,7 +16,7 @@ class Ship {
     var leftSmoke: SKEmitterNode
     var rightSmoke: SKEmitterNode
     
-    let maxFuel = 300.0
+    let maxFuel = 5000.0
     var rightFuelRemaining: Double!
     var leftFuelRemaining: Double!
 	

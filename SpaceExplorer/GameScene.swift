@@ -20,8 +20,8 @@ class GameScene: SKScene {
     var isTouchingRight = false
     var isTouchingLeft = false
     
-    var leftFuelRemainingLabel: SKLabelNode!
-    var rightFuelRemainingLabel: SKLabelNode!
+    var leftFuelRemainingBar: SKSpriteNode!
+    var rightFuelRemainingBar: SKSpriteNode!
     var distanceTraveledLabel: SKLabelNode!
     
     var previousShipPosition = CGPoint(x: 0, y: 0)
@@ -50,14 +50,12 @@ class GameScene: SKScene {
         blackHoleEmitter.restrictObjectsTo = 2
         blackHoleEmitter.startEmitting()
         
-        //Set up labels
-        leftFuelRemainingLabel = self.camera!.childNode(withName: "leftFuelRemainingLabel") as! SKLabelNode
-        rightFuelRemainingLabel = self.camera!.childNode(withName: "rightFuelRemainingLabel") as! SKLabelNode
+        //Set up HUD
+        leftFuelRemainingBar = self.camera!.childNode(withName: "leftFuelRemainingBar") as! SKSpriteNode
+        rightFuelRemainingBar = self.camera!.childNode(withName: "rightFuelRemainingBar") as! SKSpriteNode
         distanceTraveledLabel = self.camera!.childNode(withName: "distanceTraveledLabel") as! SKLabelNode
-        
-        leftFuelRemainingLabel.text = String(describing: ship.getLeftFuel())
-        rightFuelRemainingLabel.text = String(describing: ship.getRightFuel())
         distanceTraveledLabel.text = "0 mi"
+        
         previousShipPosition = ship.position()
 	}
     
@@ -122,32 +120,32 @@ class GameScene: SKScene {
         // Gets the ship velocity
         asteroidEmitter.updateCenter(point: ship.position())
         
-        updateLabels()
+        updateHUD()
 	}
 	
-    func updateLabels(){
+    func updateHUD(){
         //Update positions
         
-        //Update fuel texts
-        leftFuelRemainingLabel.text = String(describing: Int(ship.getLeftFuel()))
-        rightFuelRemainingLabel.text = String(describing: Int(ship.getRightFuel()))
+        //Update fuel Bars
+        leftFuelRemainingBar.xScale = CGFloat(ship.getLeftFuel()/ship.maxFuel)
+        rightFuelRemainingBar.xScale = CGFloat(ship.getRightFuel()/ship.maxFuel)
         
         //Update fuel colors
         switch (ship.getLeftFuel()){
         case 0...ship.getMaxFuel()*0.33:
-            leftFuelRemainingLabel.fontColor = .red
+            leftFuelRemainingBar.color = .red
         case ship.getMaxFuel()*0.33...ship.getMaxFuel()*0.66:
-            leftFuelRemainingLabel.fontColor = .yellow
+            leftFuelRemainingBar.color = .yellow
         default:
-            leftFuelRemainingLabel.fontColor = .green
+            leftFuelRemainingBar.color = .green
         }
         switch (ship.getRightFuel()){
         case 0...ship.getMaxFuel()*0.33:
-            rightFuelRemainingLabel.fontColor = .red
+            rightFuelRemainingBar.color = .red
         case ship.getMaxFuel()*0.33...ship.getMaxFuel()*0.66:
-            rightFuelRemainingLabel.fontColor = .yellow
+            rightFuelRemainingBar.color = .yellow
         default:
-            rightFuelRemainingLabel.fontColor = .green
+            rightFuelRemainingBar.color = .green
         }
         
         //Update distance
