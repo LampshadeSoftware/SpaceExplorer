@@ -55,7 +55,7 @@ class GameScene: SKScene {
         rightFuelRemainingBar = self.camera!.childNode(withName: "rightFuelRemainingBar") as! SKSpriteNode
         distanceTraveledLabel = self.camera!.childNode(withName: "distanceTraveledLabel") as! SKLabelNode
         distanceTraveledLabel.text = "0 mi"
-        
+    
         previousShipPosition = ship.position()
 	}
     
