@@ -70,16 +70,18 @@ class GameScene: SKScene {
         //Create the fuel bar to show fuel level
         leftFuelRemainingBar = SKShapeNode(rect: CGRect(x: leftBarXPos, y: barYPos, width: barWidth, height: 8))
         leftFuelRemainingBar.fillColor = .green
+        
         //Create mask node to get correct shape for cropping the fuel bar
         let maskNode = SKShapeNode(rect: CGRect(x: leftBarXPos, y: barYPos, width: barWidth, height: 8), cornerRadius: 5)
         maskNode.fillColor = .red
         //Create crop node to hold the above mask node
         let cropNode = SKCropNode()
         cropNode.maskNode = maskNode
-        cropNode.position = CGPoint(x: leftBarXPos, y: barYPos)
         cropNode.addChild(leftFuelRemainingBar)
         
-        self.addChild(cropNode)
+        
+        self.camera?.addChild(leftFuelBarBackground)
+        self.camera?.addChild(cropNode)
     
 	}
     
