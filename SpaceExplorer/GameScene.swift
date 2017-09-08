@@ -21,6 +21,7 @@ class GameScene: SKScene {
     var isTouchingLeft = false
     
     var distanceTraveledLabel: SKLabelNode!
+    var leftFuelRemainingBar: SKShapeNode!
     var outline: SKSpriteNode!
     
     var previousShipPosition = CGPoint(x: 0, y: 0)
@@ -67,7 +68,7 @@ class GameScene: SKScene {
         let leftFuelBarBackground = SKShapeNode(rect: CGRect(x: leftBarXPos, y: barYPos, width: barWidth, height: 8),cornerRadius: 5)
         leftFuelBarBackground.fillColor = .gray
         //Create the fuel bar to show fuel level
-        let leftFuelRemainingBar = SKShapeNode(rect: CGRect(x: leftBarXPos, y: barYPos, width: barWidth, height: 8))
+        leftFuelRemainingBar = SKShapeNode(rect: CGRect(x: leftBarXPos, y: barYPos, width: barWidth, height: 8))
         leftFuelRemainingBar.fillColor = .green
         //Create mask node to get correct shape for cropping the fuel bar
         let maskNode = SKShapeNode(rect: CGRect(x: leftBarXPos, y: barYPos, width: barWidth, height: 8), cornerRadius: 5)
@@ -150,8 +151,7 @@ class GameScene: SKScene {
         //Update positions
         
         //Update fuel Bars
-        // leftFuelRemainingBar.xScale = CGFloat(ship.getLeftFuel()/ship.maxFuel)
-        outline.xScale = CGFloat(ship.getRightFuel()/ship.maxFuel)
+        leftFuelRemainingBar.xScale = CGFloat(ship.getLeftFuel()/ship.maxFuel)
 		
 		/*
         //Update fuel colors
