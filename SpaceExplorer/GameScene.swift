@@ -53,7 +53,7 @@ class GameScene: SKScene {
         previousShipPosition = ship.position()
         
         //Set up HUD
-        outline = self.childNode(withName: "outline") as! SKSpriteNode
+        outline = self.camera!.childNode(withName: "outline") as! SKSpriteNode
         //print(outline.position.x)
         distanceTraveledLabel = self.camera!.childNode(withName: "distanceTraveledLabel") as! SKLabelNode
         distanceTraveledLabel.text = "0 mi"
@@ -150,11 +150,12 @@ class GameScene: SKScene {
         //Update positions
         
         //Update fuel Bars
-        //leftFuelRemainingBar.xScale = CGFloat(ship.getLeftFuel()/ship.maxFuel)
-        //rightFuelRemainingBar.xScale = CGFloat(ship.getRightFuel()/ship.maxFuel)
-        
+        // leftFuelRemainingBar.xScale = CGFloat(ship.getLeftFuel()/ship.maxFuel)
+        outline.xScale = CGFloat(ship.getRightFuel()/ship.maxFuel)
+		
+		/*
         //Update fuel colors
-        /*switch (ship.getLeftFuel()){
+        switch (ship.getLeftFuel()){
         case 0...ship.getMaxFuel()*0.33:
             leftFuelRemainingBar.color = .red
         case ship.getMaxFuel()*0.33...ship.getMaxFuel()*0.66:
@@ -169,8 +170,8 @@ class GameScene: SKScene {
             rightFuelRemainingBar.color = .yellow
         default:
             rightFuelRemainingBar.color = .green
-        }*/
-        
+        }
+        */
         //Update distance
         let currentShipPosition = ship.position()
         let xDistance = abs(currentShipPosition.x - previousShipPosition.x)
