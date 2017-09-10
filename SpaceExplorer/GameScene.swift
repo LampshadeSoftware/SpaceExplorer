@@ -21,7 +21,8 @@ class GameScene: SKScene {
     var isTouchingLeft = false
     
     var distanceTraveledLabel: SKLabelNode!
-    var leftFuelRemainingBar: SKShapeNode!
+    var leftFuelRemainingBar: SKSpriteNode!
+    var rightFuelRemainingBar: SKSpriteNode!
     var outline: SKSpriteNode!
     
     var previousShipPosition = CGPoint(x: 0, y: 0)
@@ -53,37 +54,51 @@ class GameScene: SKScene {
         
         previousShipPosition = ship.position()
         
-        //Set up HUD
+        setUpHud()
+    
+	}
+    
+    func setUpHud(){
         outline = self.camera!.childNode(withName: "outline") as! SKSpriteNode
-        //print(outline.position.x)
         distanceTraveledLabel = self.camera!.childNode(withName: "distanceTraveledLabel") as! SKLabelNode
         distanceTraveledLabel.text = "0 mi"
         //Find positions and sizes for fuel bars
         let barWidth = outline.frame.width
         let leftBarXPos = outline.position.x
-        //let rightBarXPos = 0
+        let rightBarXPos = -(outline.position.x)
         let barYPos = outline.position.y
-        //print(leftBarXPos)
-        //Create rectangle with rounded edges for background
-        let leftFuelBarBackground = SKShapeNode(rect: CGRect(x: leftBarXPos, y: barYPos, width: barWidth, height: 8),cornerRadius: 5)
-        leftFuelBarBackground.fillColor = .gray
+        let barHeight = outline.frame.height
+        
+        //Set up left fuel bar
         //Create the fuel bar to show fuel level
-        leftFuelRemainingBar = SKShapeNode(rect: CGRect(x: leftBarXPos, y: barYPos, width: barWidth, height: 8))
-        leftFuelRemainingBar.fillColor = .green
-        
+        leftFuelRemainingBar = SKSpriteNode(color: SKColor.green, size: CGSize(width: barWidth, height: barHeight))
+        leftFuelRemainingBar.anchorPoint = CGPoint(x: 0, y: 0)
+        leftFuelRemainingBar.position = CGPoint(x: leftBarXPos, y: barYPos)
         //Create mask node to get correct shape for cropping the fuel bar
-        let maskNode = SKShapeNode(rect: CGRect(x: leftBarXPos, y: barYPos, width: barWidth, height: 8), cornerRadius: 5)
-        maskNode.fillColor = .red
+        let leftMaskNode = SKShapeNode(rect: CGRect(x: leftBarXPos, y: barYPos, width: barWidth, height: barHeight), cornerRadius: 5)
+        leftMaskNode.fillColor = .gray
         //Create crop node to hold the above mask node
-        let cropNode = SKCropNode()
-        cropNode.maskNode = maskNode
-        cropNode.addChild(leftFuelRemainingBar)
+        let leftCropNode = SKCropNode()
+        leftCropNode.maskNode = leftMaskNode
+        leftCropNode.addChild(leftFuelRemainingBar)
+        self.camera?.addChild(leftCropNode)
         
+        //Set up right fuel bar
+        //Create the fuel bar to show right level
+        rightFuelRemainingBar = SKSpriteNode(color: SKColor.green, size: CGSize(width: barWidth, height: barHeight))
+        rightFuelRemainingBar.anchorPoint = CGPoint(x: 1, y: 0)
+        rightFuelRemainingBar.position = CGPoint(x: rightBarXPos, y: barYPos)
+        //Create mask node to get correct shape for cropping the fuel bar
+        let rightMaskNode = SKShapeNode(rect: CGRect(x: rightBarXPos-260, y: barYPos, width: barWidth, height: barHeight), cornerRadius: 5)
+        rightMaskNode.fillColor = .gray
+        //Create crop node to hold the above mask node
+        let rightCropNode = SKCropNode()
+        rightCropNode.maskNode = rightMaskNode
+        rightCropNode.addChild(rightFuelRemainingBar)
+        self.camera?.addChild(rightCropNode)
         
-        self.camera?.addChild(leftFuelBarBackground)
-        self.camera?.addChild(cropNode)
-    
-	}
+    }
+
     
     // Auxiliary Functions
     func setThrusterPower(pos: CGPoint){
