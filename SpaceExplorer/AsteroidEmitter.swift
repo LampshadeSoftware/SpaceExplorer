@@ -96,6 +96,8 @@ class AsteroidEmitter {
         asteroid.physicsBody?.friction = 0
         asteroid.physicsBody?.linearDamping = 0
         asteroid.physicsBody?.angularDamping = 0
+		
+		asteroid.name = "asteroidNode"
         
         return asteroid
     }

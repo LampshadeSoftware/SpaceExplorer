@@ -16,7 +16,7 @@ class Ship {
     var leftSmoke: SKEmitterNode
     var rightSmoke: SKEmitterNode
     
-    let maxFuel = 300.0
+    let maxFuel = 30000.0
     var rightFuelRemaining: Double!
     var leftFuelRemaining: Double!
 	
@@ -120,7 +120,12 @@ class Ship {
 		
 		// Collision
 		for contact in body.physicsBody!.allContactedBodies() {
-			print("Collision at velocity \(contact.velocity)")
+			let collisionVector = CGVector(dx: contact.velocity.dx - self.body.physicsBody!.velocity.dx,
+			                               dy: contact.velocity.dy - self.body.physicsBody!.velocity.dy)
+			let collisionMagnitude = sqrt(pow(collisionVector.dx, 2) + pow(collisionVector.dy, 2))
+			if contact.node?.name != nil {
+				print("Collision of magnitude \(collisionMagnitude) with \(String(describing: contact.node?.name))")
+			}
 		}
 	}
 	
