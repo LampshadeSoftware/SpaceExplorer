@@ -24,6 +24,8 @@ class Ship {
 	var leftThrusterPower = 0.0  // current thruster power (e.g. how far up/down the screen the user has their finger)
 	var rightThrusterPower = 0.0
 	
+	let maxHealth: CGFloat = 10000.0
+	var health: CGFloat!
     
 	init(scene: SKScene) {
 		body = scene.childNode(withName: "body") as! SKSpriteNode
@@ -34,6 +36,8 @@ class Ship {
         
         rightFuelRemaining = maxFuel
         leftFuelRemaining = maxFuel
+		
+		health = maxHealth
 	}
 	
 	func setThrusterPower(left: Bool, amount: Double) {
@@ -124,7 +128,8 @@ class Ship {
 			                               dy: contact.velocity.dy - self.body.physicsBody!.velocity.dy)
 			let collisionMagnitude = sqrt(pow(collisionVector.dx, 2) + pow(collisionVector.dy, 2))
 			if contact.node?.name != nil {
-				print("Collision of magnitude \(collisionMagnitude) with \(String(describing: contact.node?.name))")
+				// print("Collision of magnitude \(collisionMagnitude) with \(String(describing: contact.node?.name))")
+				health = health - collisionMagnitude
 			}
 		}
 	}

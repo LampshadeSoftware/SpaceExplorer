@@ -24,6 +24,8 @@ class GameScene: SKScene {
     var leftFuelRemainingBar: SKSpriteNode!
     var rightFuelRemainingBar: SKSpriteNode!
     var outline: SKSpriteNode!
+	
+	var healthLabel: SKLabelNode!
     
     var previousShipPosition = CGPoint(x: 0, y: 0)
     var distanceTraveled: CGFloat = 0
@@ -96,6 +98,8 @@ class GameScene: SKScene {
         rightCropNode.maskNode = rightMaskNode
         rightCropNode.addChild(rightFuelRemainingBar)
         self.camera?.addChild(rightCropNode)
+		
+		healthLabel = self.camera!.childNode(withName: "health") as! SKLabelNode
         
     }
 
@@ -197,7 +201,8 @@ class GameScene: SKScene {
         distanceTraveled += distance * 0.01
         distanceTraveledLabel.text = String(describing: Int(distanceTraveled)) + " mi"
         previousShipPosition = currentShipPosition
-        
+		
+		healthLabel.text = String(describing: ship.health!)
     }
     
     // Stars Background
